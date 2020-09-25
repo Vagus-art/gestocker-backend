@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { ExpenseCategories } from "./ExpenseCategories";
 
-@Index("expense_category", ["categoryId"], {})
+@Index("expense_category", ["category_id"], {})
 @Entity("expenses", { schema: "chakra_stock" })
 export class Expenses {
   @Column("varchar", { name: "description", nullable: true, length: 30 })
@@ -21,28 +21,28 @@ export class Expenses {
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdAt: Date;
+  created_at: Date;
 
   @PrimaryGeneratedColumn({ type: "int", name: "expense_id" })
-  expenseId: number;
+  expense_id: number;
 
   @Column("int", { name: "category_id" })
-  categoryId: number;
+  category_id: number;
 
   @Column("timestamp", {
     name: "updated_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @Column("timestamp", { name: "deleted_at", nullable: true })
-  deletedAt: Date | null;
+  deleted_at: Date | null;
 
   @ManyToOne(
     () => ExpenseCategories,
     (expenseCategories) => expenseCategories.expenses,
     { onDelete: "RESTRICT", onUpdate: "RESTRICT" }
   )
-  @JoinColumn([{ name: "category_id", referencedColumnName: "categoryId" }])
+  @JoinColumn([{ name: "category_id", referencedColumnName: "category_id" }])
   category: ExpenseCategories;
 }

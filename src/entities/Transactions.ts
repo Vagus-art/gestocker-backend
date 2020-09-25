@@ -9,48 +9,48 @@ import {
 import { Contacts } from "./Contacts";
 import { Orders } from "./Orders";
 
-@Index("contact_id", ["contactId"], {})
-@Index("order_id", ["orderId"], {})
+@Index("contact_id", ["contact_id"], {})
+@Index("order_id", ["order_id"], {})
 @Entity("transactions", { schema: "chakra_stock" })
 export class Transactions {
   @Column("timestamp", {
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdAt: Date;
+  created_at: Date;
 
   @Column("float", { name: "sum", precision: 12 })
   sum: number;
 
   @PrimaryGeneratedColumn({ type: "int", name: "transaction_id" })
-  transactionId: number;
+  transaction_id: number;
 
   @Column("timestamp", {
     name: "updated_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @Column("timestamp", { name: "deleted_at", nullable: true })
-  deletedAt: Date | null;
+  deleted_at: Date | null;
 
   @Column("int", { name: "contact_id" })
-  contactId: number;
+  contact_id: number;
 
   @Column("int", { name: "order_id" })
-  orderId: number;
+  order_id: number;
 
   @ManyToOne(() => Contacts, (contacts) => contacts.transactions, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
-  @JoinColumn([{ name: "contact_id", referencedColumnName: "contactId" }])
+  @JoinColumn([{ name: "contact_id", referencedColumnName: "contact_id" }])
   contact: Contacts;
 
   @ManyToOne(() => Orders, (orders) => orders.transactions, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
-  @JoinColumn([{ name: "order_id", referencedColumnName: "orderId" }])
+  @JoinColumn([{ name: "order_id", referencedColumnName: "order_id" }])
   order: Orders;
 }

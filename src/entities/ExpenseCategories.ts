@@ -7,7 +7,7 @@ export class ExpenseCategories {
   name: string;
 
   @PrimaryGeneratedColumn({ type: "int", name: "category_id" })
-  categoryId: number;
+  category_id: number;
 
   @OneToMany(() => Expenses, (expenses) => expenses.category)
   expenses: Expenses[];

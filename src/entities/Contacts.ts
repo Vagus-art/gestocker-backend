@@ -8,16 +8,16 @@ export class Contacts {
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdAt: Date;
+  created_at: Date;
 
   @Column("timestamp", { name: "deleted_at", nullable: true })
-  deletedAt: Date | null;
+  deleted_at: Date | null;
 
   @Column("varchar", { name: "address", length: 30 })
   address: string;
 
-  @PrimaryGeneratedColumn({ type: "int", name: "contact_id" })
-  contactId: number;
+  @PrimaryGeneratedColumn({ name: "contact_id", type: "int"  })
+  contact_id: number;
 
   @Column("float", { name: "money", precision: 12 })
   money: number;
@@ -35,7 +35,7 @@ export class Contacts {
     name: "updated_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @OneToMany(() => Orders, (orders) => orders.contact)
   orders: Orders[];

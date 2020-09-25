@@ -11,7 +11,7 @@ import {
 import { OrderProducts } from "./OrderProducts";
 import { Products } from "./Products";
 
-@Index("history_product", ["productId"], {})
+@Index("history_product", ["product_id"], {})
 @Entity("product_history", { schema: "chakra_stock" })
 export class ProductHistory {
   @Column("timestamp", {
@@ -24,25 +24,25 @@ export class ProductHistory {
   name: string;
 
   @Column("float", { name: "sell_price", precision: 12 })
-  sellPrice: number;
+  sell_price: number;
 
   @Column("float", { name: "buy_price", precision: 12 })
-  buyPrice: number;
+  buy_price: number;
 
   @Column("int", { name: "product_id", nullable: true })
-  productId: number | null;
+  product_id: number | null;
 
   @PrimaryGeneratedColumn({ type: "int", name: "product_history_id" })
-  productHistoryId: number;
+  product_history_id: number;
 
   @Column("timestamp", {
     name: "updated_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @Column("timestamp", { name: "deleted_at", nullable: true })
-  deletedAt: Date | null;
+  deleted_at: Date | null;
 
   @OneToMany(
     () => OrderProducts,
@@ -57,6 +57,6 @@ export class ProductHistory {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
-  @JoinColumn([{ name: "product_id", referencedColumnName: "productId" }])
+  @JoinColumn([{ name: "product_id", referencedColumnName: "product_id" }])
   product: Products;
 }

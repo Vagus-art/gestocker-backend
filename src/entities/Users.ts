@@ -4,7 +4,7 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 @Entity("users", { schema: "chakra_stock" })
 export class Users {
   @PrimaryGeneratedColumn({ type: "int", name: "user_id" })
-  userId: number;
+  user_id: number;
 
   @Column("varchar", { name: "password", length: 60 })
   password: string;
