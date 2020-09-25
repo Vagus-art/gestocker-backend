@@ -5,9 +5,15 @@ import { PruebasService } from './pruebas.service';
 export class PruebasController {
     constructor(private readonly pruebasService: PruebasService) {}
 
-    @Get()
-    getUser()
+    @Get('user')
+    getUsers()
     {
         return this.pruebasService.getUsers();
+    }
+
+    @Get('order')
+    getOrders()
+    {
+        return this.pruebasService.getOrders();
     }
 }

@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PruebasController } from './pruebas/pruebas.controller';
-import { PruebasService } from './pruebas/pruebas.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { PruebasModule } from './pruebas/pruebas.module';
