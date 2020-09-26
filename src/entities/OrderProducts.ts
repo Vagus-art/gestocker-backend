@@ -1,48 +1,57 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { Orders } from "./Orders";
-import { Products } from "./Products";
-import { ProductHistory } from "./ProductHistory";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
+import { Orders } from './Orders';
+import { Products } from './Products';
+import { ProductHistory } from './ProductHistory';
 
-@Index("order_product_history", ["product_history_id"], {})
-@Index("order_product", ["product_id"], {})
-@Entity("order_products", { schema: "chakra_stock" })
+@Index('order_product_history', ['product_history_id'], {})
+@Index('order_product', ['product_id'], {})
+@Entity('order_products', { schema: 'chakra_stock' })
 export class OrderProducts {
-  @Column("int", { name: "ammount" })
+  @Column('int', { name: 'ammount' })
   ammount: number;
 
-  @Column("int", { name: "delivered" })
+  @Column('int', { name: 'delivered' })
   delivered: number;
 
-  @Column("int", { primary: true, name: "order_id" })
+  @Column('int', { primary: true, name: 'order_id' })
   order_id: number;
 
-  @Column("int", { primary: true, name: "product_id" })
+  @Column('int', { primary: true, name: 'product_id' })
   product_id: number;
 
-  @Column("int", { primary: true, name: "product_history_id" })
+  @Column('int', { primary: true, name: 'product_history_id' })
   product_history_id: number;
 
-  @ManyToOne(() => Orders, (orders) => orders.orderProducts, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
-  })
-  @JoinColumn([{ name: "order_id", referencedColumnName: "order_id" }])
+  @ManyToOne(
+    () => Orders,
+    orders => orders.order_products,
+    {
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT',
+    },
+  )
+  @JoinColumn([{ name: 'order_id', referencedColumnName: 'order_id' }])
   order: Orders;
 
-  @ManyToOne(() => Products, (products) => products.orderProducts, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-  })
-  @JoinColumn([{ name: "product_id", referencedColumnName: "product_id" }])
+  @ManyToOne(
+    () => Products,
+    products => products.order_products,
+    {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+      eager: true,
+    },
+  )
+  @JoinColumn([{ name: 'product_id', referencedColumnName: 'product_id' }])
   product: Products;
 
   @ManyToOne(
     () => ProductHistory,
-    (productHistory) => productHistory.orderProducts,
-    { onDelete: "CASCADE", onUpdate: "CASCADE" }
+    product_version => product_version.order_products,
+    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([
-    { name: "product_history_id", referencedColumnName: "product_history_id" },
+    { name: 'product_history_id', referencedColumnName: 'product_history_id' },
   ])
-  productHistory: ProductHistory;
+  product_version: ProductHistory;
 }

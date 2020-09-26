@@ -1,5 +1,7 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -7,6 +9,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { OrderProducts } from "./OrderProducts";
 import { ProductCategories } from "./ProductCategories";
@@ -16,23 +19,17 @@ import { ProductHistory } from "./ProductHistory";
 @Index("products_categories", ["category_id"], {})
 @Entity("products", { schema: "chakra_stock" })
 export class Products {
-  @Column("int", { name: "stock" })
-  stock: number;
-
-  @Column("timestamp", { name: "deleted_at", nullable: true })
-  deleted_at: Date | null;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "CURRENT_TIMESTAMP",
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
 
-  @Column("timestamp", {
-    name: "updated_at",
-    default: () => "CURRENT_TIMESTAMP",
-  })
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
+  deleted_at: Date | null;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updated_at: Date;
+  
+  @Column("int", { name: "stock" })
+  stock: number;
 
   @PrimaryGeneratedColumn({ type: "int", name: "product_id" })
   product_id: number;
@@ -43,8 +40,8 @@ export class Products {
   @Column("int", { name: "category_id" })
   category_id: number;
 
-  @OneToMany(() => OrderProducts, (orderProducts) => orderProducts.product)
-  orderProducts: OrderProducts[];
+  @OneToMany(() => OrderProducts, (order_products) => order_products.product)
+  order_products: OrderProducts[];
 
   @ManyToOne(
     () => ProductCategories,
@@ -57,6 +54,7 @@ export class Products {
   @OneToOne(() => ProductHistory, (productHistory) => productHistory.products, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
+    eager: true
   })
   @JoinColumn([
     { name: "product_history_id", referencedColumnName: "product_history_id" },

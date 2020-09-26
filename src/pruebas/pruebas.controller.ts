@@ -5,15 +5,39 @@ import { PruebasService } from './pruebas.service';
 export class PruebasController {
     constructor(private readonly pruebasService: PruebasService) {}
 
-    @Get('user')
+    @Get('users')
     getUsers()
     {
         return this.pruebasService.getUsers();
     }
 
-    @Get('order')
+    @Get('orders')
     getOrders()
     {
         return this.pruebasService.getOrders();
+    }
+
+    @Get('orderswproducts')
+    getOrdersWithProducts()
+    {
+        return this.pruebasService.getOrdersWithProducts();
+    }
+
+    @Get('products')
+    getProducts()
+    {
+        return this.pruebasService.getProducts();
+    }
+
+    @Get('expenses')
+    getExpenses()
+    {
+        return this.pruebasService.getExpenses();
+    }
+
+    @Get('transactions')
+    getTransactions()
+    {
+        return this.pruebasService.getTransactions();
     }
 }

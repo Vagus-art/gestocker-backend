@@ -1,42 +1,39 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { ExpenseCategories } from "./ExpenseCategories";
 
 @Index("expense_category", ["category_id"], {})
 @Entity("expenses", { schema: "chakra_stock" })
 export class Expenses {
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  created_at: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
+  deleted_at: Date | null;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updated_at: Date;
+  
   @Column("varchar", { name: "description", nullable: true, length: 30 })
   description: string | null;
 
   @Column("float", { name: "sum", precision: 12 })
   sum: number;
 
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "CURRENT_TIMESTAMP",
-  })
-  created_at: Date;
-
   @PrimaryGeneratedColumn({ type: "int", name: "expense_id" })
   expense_id: number;
 
   @Column("int", { name: "category_id" })
   category_id: number;
-
-  @Column("timestamp", {
-    name: "updated_at",
-    default: () => "CURRENT_TIMESTAMP",
-  })
-  updated_at: Date;
-
-  @Column("timestamp", { name: "deleted_at", nullable: true })
-  deleted_at: Date | null;
 
   @ManyToOne(
     () => ExpenseCategories,

@@ -1,10 +1,13 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Contacts } from "./Contacts";
 import { Orders } from "./Orders";
@@ -13,26 +16,20 @@ import { Orders } from "./Orders";
 @Index("order_id", ["order_id"], {})
 @Entity("transactions", { schema: "chakra_stock" })
 export class Transactions {
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "CURRENT_TIMESTAMP",
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
+  deleted_at: Date | null;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updated_at: Date;
 
   @Column("float", { name: "sum", precision: 12 })
   sum: number;
 
   @PrimaryGeneratedColumn({ type: "int", name: "transaction_id" })
   transaction_id: number;
-
-  @Column("timestamp", {
-    name: "updated_at",
-    default: () => "CURRENT_TIMESTAMP",
-  })
-  updated_at: Date;
-
-  @Column("timestamp", { name: "deleted_at", nullable: true })
-  deleted_at: Date | null;
 
   @Column("int", { name: "contact_id" })
   contact_id: number;
